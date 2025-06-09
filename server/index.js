@@ -20,7 +20,7 @@ app.post("/login", (req, res) => {
         if (response) {
           res.json("success");
         } else {
-          res.json("the password is incorrect");
+          res.json("the password is incorrect" + err.message);
         }
       });
     } else {
