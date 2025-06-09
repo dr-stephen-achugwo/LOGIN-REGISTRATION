@@ -7,10 +7,28 @@ const bcrypt = require("bcrypt");
 
 const app = express();
 app.use(express.json());
-app.use(cors('*')); // Allow all origins for CORS
 
-const url = process.env.MONGODB_URL;
-mongoose.connect(url);
+// Enable CORS for all routes
+app.use(cors({
+    origin: [
+        'https://crud-mern-0zhi.onrender.com/', 
+        'https://mern4.apps.net.ng/', 
+        'https://crud-mern-client-khaki.vercel.app/', 
+        'https://crud-mern-client-dr-stephens-projects.vercel.app/', 
+        'https://crud-mern-client-git-main-dr-stephens-projects.vercel.app/'
+    ], 
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true // Allow credentials (like cookies) to be sent
+}));
+
+async function main() {
+  await mongoose.connect(process.env.MONGODB_URL);
+  app.use('/', (req, res) => {
+    res.send('Server for Login & Registration is running!');
+  });
+}
+
+main().then(() => console.log("Mongodb connected successfully!")).catch(err => console.log(err));
 
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
