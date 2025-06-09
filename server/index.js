@@ -1,14 +1,16 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+require("dotenv").config();
 const EmployeeModel = require("./models/Employee");
 const bcrypt = require("bcrypt");
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors('*')); // Allow all origins for CORS
 
-mongoose.connect("mongodb://localhost:27017/employee");
+const url = process.env.MONGODB_URL;
+mongoose.connect(url);
 
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
